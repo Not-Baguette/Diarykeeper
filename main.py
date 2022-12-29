@@ -102,7 +102,8 @@ def diary_root():
     def open_file():
         global file_path
         """
-        Open the file via the user account
+        Open the file via the user account. This prevents using static file, also solves a security
+        and portability issues
         """
         file_path = fd.askopenfilename(title="Select diary file", filetypes=[("Diary files", "*.dry")])
         file_path = fr"{file_path}"
@@ -175,5 +176,4 @@ if __name__ == "__main__":
     if state is False or account is None:  # Incase the user closes the window
         print("Not logged in")
     elif state and account:  # why account? just to make sure incase someone tinkered with the variable somehow
-        # ask the user for the file path and make it raw, this solves the security and portability issue
         diary_root()
