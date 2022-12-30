@@ -6,6 +6,8 @@ def encrypt_file_two(key, data):
     if len(key) % 16 != 0:
         key_fill = 16 - len(key) % 16
         key += "a" * key_fill
+    if len(key) > 32:
+        key = key[:32]
 
     # convert plaintext to bytes
     try:
@@ -21,13 +23,18 @@ def encrypt_file_two(key, data):
     cipher = Twofish()
     cipher.set_key(str.encode(key))
 
-    return cipher.encrypt(data)
+    try:
+        return cipher.encrypt(data)
+    except TypeError:
+        return None  # User might be accessing the diary via another account
 
 
 def decrypt_file_two(key, data):
     if len(key) % 16 != 0:
         key_fill = 16 - len(key) % 16
         key += "a" * key_fill
+    if len(key) > 32:
+        key = key[:32]
 
     cipher = Twofish()
     cipher.set_key(str.encode(key))
@@ -44,11 +51,17 @@ def save_diary(file_path, acc_id, data):
     """
     Saves the diary. Encrypt it with the id too as the key via Twofish
     """
+    if file_path == "":
+        return False
     encrypted_data = encrypt_file_two(acc_id, data)
 
     # Save the diary
-    with open(file_path, "wb") as file:
-        file.write(encrypted_data)
+    if encrypted_data is not None:
+        with open(file_path, "wb") as file:
+            file.write(encrypted_data)
+        return True
+    else:
+        return False
 
 
 def open_diary(file_path, acc_id):

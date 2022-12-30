@@ -1,7 +1,8 @@
-import authcheck
 import tkinter as tk
 import tkinter.filedialog as fd
 import tkinter.messagebox as mb
+
+import authcheck
 import diary_main as dm
 
 
@@ -9,6 +10,7 @@ def verification():
     """
     Verification window via tkinter
     """
+
     def toggle_pw():
         """
         Toggle password visibility
@@ -26,6 +28,10 @@ def verification():
         if username_input.get() == "" or password_input.get() == "":
             error_label["text"] = "Please fill in both fields"
         # check if the username is already taken (Put this above the password check for better UX)
+        elif len(password_input.get()) < 8:
+            error_label["text"] = "Password must be at least 8 characters"
+        elif len(username_input.get()) > 10:
+            error_label["text"] = "Username must be less than 10 characters"
         elif authcheck.name_check(username_input.get()):
             error_label["text"] = "Username already taken"
         # check if the account already exists
@@ -40,7 +46,7 @@ def verification():
         """
         Login to the account
         """
-        global state, account
+        global state, key
         # check if either of the fields are empty
         if username_input.get() == "" or password_input.get() == "":
             error_label["text"] = "Please fill in both fields"
@@ -48,7 +54,8 @@ def verification():
         elif authcheck.authenticate(username_input.get(), password_input.get()):
             error_label["text"] = "Login successful"
             # close the window
-            state, account = True, username_input.get() + password_input.get()  # it's a "id" per se
+            state = True
+            key = authcheck.get_id(username_input.get()) + username_input.get()
             root.destroy()
         else:
             error_label["text"] = "Invalid username or password"
@@ -91,23 +98,24 @@ def diary_root():
     """
     Diary window via tkinter
     """
-    def save_file(*args):
+
+    def save_file(*args): # NOQA
         """
         Save the diary by getting the text from the text widget and then save
         """
 
         window_txt = text_widget.get("1.0", "end-1c")
-        dm.save_diary(file_path, account, window_txt)
+        if dm.save_diary(file_path, key, window_txt) is False:
+            mb.showerror("Error", "Could not save the file, you might be trying to save to a file that is not your own")
 
     def open_file():
         global file_path
         """
-        Open the file via the user account. This prevents using static file, also solves a security
-        and portability issues
+        Open the file via the user account. The unique id makes it so that the user can only access their own files.
         """
         file_path = fd.askopenfilename(title="Select diary file", filetypes=[("Diary files", "*.dry")])
         file_path = fr"{file_path}"
-        window_txt = dm.open_diary(file_path, account)
+        window_txt = dm.open_diary(file_path, key)
         # Insert the text into the text widget but first clear it
         text_widget.delete("1.0", "end")
         text_widget.insert("1.0", window_txt)
@@ -115,7 +123,61 @@ def diary_root():
         root.update()
 
     def change_pw():
-        pass
+        """
+        Make a sub-window asking the user for their username, old password, new password,
+        and then confirm the new password
+        """
+        def change_pw_internal():
+            """
+            Change the password
+            """
+            if authcheck.authenticate(username_input.get(), old_password_input.get()):
+                if username_input.get() == "" or new_password_input.get() == "" or confirm_password_input.get() == ""\
+                        or old_password_input.get() == "":
+                    mb.showerror("Error", "Please input the fields correctly.")
+                # check if the username is already taken (Put this above the password check for better UX)
+                elif len(new_password_input.get()) < 8:
+                    mb.showerror("Error", "Password must be at least 8 characters")
+                elif new_password_input.get() == confirm_password_input.get():
+                    authcheck.change_password(username_input.get(), old_password_input.get(), new_password_input.get())
+                    mb.showinfo("Success", "Password changed successfully")
+                    root2.destroy()
+                else:
+                    mb.showerror("Error", "Passwords do not match")
+            else:
+                mb.showerror("Error", "Invalid username or password")
+
+        # Create the main window
+        root2 = tk.Toplevel(root)
+        root2.title("Change Password")
+
+        # Set the window size
+        root2.geometry("400x200")
+        root2.resizable(False, False)
+
+        font_name = "Open Sans"
+        username_label = tk.Label(root2, text="Username:", font=(font_name, 12))
+        username_label.grid(row=0, column=0, padx=10, pady=5)
+        username_input = tk.Entry(root2, font=("Arial", 12))
+        username_input.grid(row=0, column=1, pady=5)
+
+        old_password_label = tk.Label(root2, text="Old Password:", font=(font_name, 12))
+        old_password_label.grid(row=1, column=0, padx=10, pady=5)
+        old_password_input = tk.Entry(root2, show="*", font=(font_name, 12))
+        old_password_input.grid(row=1, column=1, pady=5)
+
+        new_password_label = tk.Label(root2, text="New Password:", font=(font_name, 12))
+        new_password_label.grid(row=2, column=0, padx=10, pady=5)
+        new_password_input = tk.Entry(root2, show="*", font=(font_name, 12))
+        new_password_input.grid(row=2, column=1, pady=5)
+
+        confirm_password_label = tk.Label(root2, text="Confirm Password:", font=(font_name, 12))
+        confirm_password_label.grid(row=3, column=0, padx=10, pady=5)
+        confirm_password_input = tk.Entry(root2, show="*", font=(font_name, 12))
+        confirm_password_input.grid(row=3, column=1, pady=5)
+
+        change_pw_button = tk.Button(root2, text="Change Password", font=(font_name, 10), command=change_pw_internal)
+        change_pw_button.grid(row=4, column=0, columnspan=2, pady=5)
 
     def delete_acc():
         pass
@@ -154,8 +216,8 @@ def diary_root():
     settings_menu.add_command(label="Change password", command=change_pw)
     settings_menu.add_command(label="Delete Account", command=delete_acc)
     settings_menu.add_separator()
-    settings_menu.add_command(label="Delete Account", command=open_log)
-    menu.add_cascade(label="Logs", menu=settings_menu)
+    settings_menu.add_command(label="Open logs", command=open_log)
+    menu.add_cascade(label="Settings", menu=settings_menu)
 
     # Create the text widget
     text_widget = tk.Text(root, font=("Arial", 12))
@@ -171,9 +233,9 @@ if __name__ == "__main__":
     authcheck.check_db()
     file_path = None
 
-    account, state = None, False
+    key, state = None, False
     verification()
-    if state is False or account is None:  # Incase the user closes the window
+    if state is False or key is None:  # Incase the user closes the window
         print("Not logged in")
-    elif state and account:  # why account? just to make sure incase someone tinkered with the variable somehow
+    elif state and key:  # why account? just to make sure incase someone tinkered with the variable somehow
         diary_root()
