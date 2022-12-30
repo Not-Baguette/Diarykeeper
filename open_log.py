@@ -38,7 +38,7 @@ def access_read(account_id):
         if row[0] == account_id:
             row[0] = authcheck.get_username(account_id)
             self_log.append(row)
-    print(self_log)
+
     return self_log
 
 
