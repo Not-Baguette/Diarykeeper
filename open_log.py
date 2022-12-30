@@ -11,6 +11,8 @@ def access_write(account_id):
     """
     Write the time and username to the log file
     """
+    check_db_log()
+
     time = datetime.datetime.now()
     conn = sqlite3.connect("log_db.db")
     cursor = conn.cursor()
