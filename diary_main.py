@@ -51,7 +51,7 @@ def save_diary(file_path, acc_id, data):
     """
     Saves the diary. Encrypt it with the id too as the key via Twofish
     """
-    if file_path == "":
+    if file_path == "" or file_path is None:
         return False
     encrypted_data = encrypt_file_two(acc_id, data)
 
