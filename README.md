@@ -16,9 +16,9 @@ An offline diary keeper, secured by SHA-256 hashing and Twofish encryption algor
 TBA
 
 ## TODO
-- Add pages feature
-- revamp logs(?)
-- clean log of a certain id once the account is deleted(?)
+- [ ] Add pages feature
+- [ ] revamp logs(?)
+- [ ] clean log of a certain id once the account is deleted(?)
 
 ## Dependencies
 - tkinter
