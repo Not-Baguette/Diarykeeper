@@ -106,7 +106,7 @@ def create_db():
 
 def check_db():
     """
-    attempt to open the database via os
+    attempt to open the database
     """
     try:
         open("accounts_db.db")
@@ -166,6 +166,22 @@ def get_id(username):
     id_ = cursor.fetchone()
     conn.close()
     return id_[0]
+
+
+def get_username(account_id):
+    """
+    Get the username of the account
+    """
+    conn = sqlite3.connect("accounts_db.db")
+    cursor = conn.cursor()
+
+    cursor.execute("SELECT username FROM accounts WHERE account_id = ?", (account_id,))
+    username = cursor.fetchone()
+    username = username[0]
+    # access the tuple
+
+    conn.close()
+    return username
 
 
 def delete_account(username, password):
