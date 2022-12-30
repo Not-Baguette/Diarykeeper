@@ -180,7 +180,41 @@ def diary_root():
         change_pw_button.grid(row=4, column=0, columnspan=2, pady=5)
 
     def delete_acc():
-        pass
+        """
+        prompt the user for their username and password and then delete the account
+        """
+        def delete_acc_internal():
+            """
+            Delete the account
+            """
+            delete_state = authcheck.delete_account(username_input.get(), password_input.get())
+            if delete_state is True:
+                mb.showinfo("Success", "Account deleted successfully")
+                root.destroy()
+            else:
+                mb.showerror("Error", "Invalid username or password")
+
+        # Create the main window
+        root2 = tk.Toplevel(root)
+        root2.title("Delete Account")
+
+        # Set the window size
+        root2.geometry("310x140")
+        root2.resizable(False, False)
+
+        font_name = "Open Sans"
+        username_label = tk.Label(root2, text="Username:", font=(font_name, 12))
+        username_label.grid(row=0, column=0, padx=10, pady=5)
+        username_input = tk.Entry(root2, font=("Arial", 12))
+        username_input.grid(row=0, column=1, pady=5)
+
+        password_label = tk.Label(root2, text="Password:", font=(font_name, 12))
+        password_label.grid(row=1, column=0, padx=10, pady=5)
+        password_input = tk.Entry(root2, show="*", font=(font_name, 12))
+        password_input.grid(row=1, column=1, pady=5)
+
+        delete_acc_button = tk.Button(root2, text="Delete Account", font=(font_name, 10), command=delete_acc_internal)
+        delete_acc_button.grid(row=2, column=0, columnspan=2, pady=15)
 
     def open_log():
         pass
