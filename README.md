@@ -18,6 +18,7 @@ TBA
 ## TODO
 - Add pages feature
 - revamp logs(?)
+- clean log of a certain id once the account is deleted(?)
 
 ## Dependencies
 - tkinter
