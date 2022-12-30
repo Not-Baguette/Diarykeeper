@@ -167,4 +167,20 @@ def get_id(username):
     conn.close()
     return id_[0]
 
-# debug account = "test", password = "test"
+
+def delete_account(username, password):
+    """
+    Delete the account
+    """
+    if authenticate(username, password):
+        conn = sqlite3.connect("accounts_db.db")
+        cursor = conn.cursor()
+
+        cursor.execute("DELETE FROM accounts WHERE username = ?", (username,))
+
+        conn.commit()
+        conn.close()
+
+        return True
+    else:
+        return False
