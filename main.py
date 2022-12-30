@@ -91,6 +91,7 @@ def verification():
 
     password_vis_button = tk.Button(root, text="Toggle password", font=(font_name, 10), command=toggle_pw)
     password_vis_button.grid(row=4, column=0, columnspan=2, pady=5)
+
     root.mainloop()
 
 
@@ -325,7 +326,7 @@ if __name__ == "__main__":
     key, state, acc_id = None, False, None
     verification()
     if state is False or key is None:  # Incase the user closes the window
-        quit()
+        pass
     elif state and key:  # why account? just to make sure incase someone tinkered with the variable somehow
         ol.access_write(acc_id)
         diary_root()
@@ -656,7 +657,7 @@ if __name__ == "__main__":
     key, state, acc_id = None, False, None
     verification()
     if state is False or key is None:  # Incase the user closes the window
-        quit()
+        pass
     elif state and key:  # why account? just to make sure incase someone tinkered with the variable somehow
         ol.access_write(acc_id)
         diary_root()
