@@ -1,9 +1,9 @@
 import tkinter as tk
 import tkinter.filedialog as fd
 import tkinter.messagebox as mb
-
 import authcheck
 import diary_main as dm
+import open_log as ol
 
 
 def verification():
@@ -71,7 +71,7 @@ def verification():
     font_name = "Open Sans"
     username_label = tk.Label(root, text="Username:", font=(font_name, 12))
     username_label.grid(row=0, column=0, padx=10, pady=5)
-    username_input = tk.Entry(root, font=("Arial", 12))
+    username_input = tk.Entry(root, font=(font_name, 12))
     username_input.grid(row=0, column=1, pady=5)
 
     password_label = tk.Label(root, text="Password:", font=(font_name, 12))
@@ -99,7 +99,7 @@ def diary_root():
     Diary window via tkinter
     """
 
-    def save_file(*args): # NOQA
+    def save_file(*args):  # NOQA
         """
         Save the diary by getting the text from the text widget and then save
         """
@@ -127,12 +127,13 @@ def diary_root():
         Make a sub-window asking the user for their username, old password, new password,
         and then confirm the new password
         """
+
         def change_pw_internal():
             """
             Change the password
             """
             if authcheck.authenticate(username_input.get(), old_password_input.get()):
-                if username_input.get() == "" or new_password_input.get() == "" or confirm_password_input.get() == ""\
+                if username_input.get() == "" or new_password_input.get() == "" or confirm_password_input.get() == "" \
                         or old_password_input.get() == "":
                     mb.showerror("Error", "Please input the fields correctly.")
                 # check if the username is already taken (Put this above the password check for better UX)
@@ -158,7 +159,7 @@ def diary_root():
         font_name = "Open Sans"
         username_label = tk.Label(root2, text="Username:", font=(font_name, 12))
         username_label.grid(row=0, column=0, padx=10, pady=5)
-        username_input = tk.Entry(root2, font=("Arial", 12))
+        username_input = tk.Entry(root2, font=(font_name, 12))
         username_input.grid(row=0, column=1, pady=5)
 
         old_password_label = tk.Label(root2, text="Old Password:", font=(font_name, 12))
@@ -183,6 +184,7 @@ def diary_root():
         """
         prompt the user for their username and password and then delete the account
         """
+
         def delete_acc_internal():
             """
             Delete the account
@@ -205,7 +207,7 @@ def diary_root():
         font_name = "Open Sans"
         username_label = tk.Label(root2, text="Username:", font=(font_name, 12))
         username_label.grid(row=0, column=0, padx=10, pady=5)
-        username_input = tk.Entry(root2, font=("Arial", 12))
+        username_input = tk.Entry(root2, font=(font_name, 12))
         username_input.grid(row=0, column=1, pady=5)
 
         password_label = tk.Label(root2, text="Password:", font=(font_name, 12))
@@ -217,7 +219,59 @@ def diary_root():
         delete_acc_button.grid(row=2, column=0, columnspan=2, pady=15)
 
     def open_log():
-        pass
+        class Table:
+            def __init__(self, window, lst):
+                self.lst = lst
+                self.total_rows = len(lst)
+                self.total_columns = len(lst[0])
+                self.window = window
+                self.e = None
+
+            def create(self):
+                # code for creating table
+                for i in range(self.total_rows):
+                    for j in range(self.total_columns):
+                        print(self.lst[i][j])
+                        self.e = tk.Entry(self.window, width=20, fg="black",
+                                          font=("Open Sans", 16, "bold"))
+                        self.e.grid(row=i, column=j)
+                        self.e.insert(tk.END, self.lst[i][j])
+
+        def access_log(account_name, account_password):
+            if authcheck.authenticate(account_name, account_password) is False:
+                mb.showerror("Error", "Invalid username or password")
+                return None
+            elif authcheck.authenticate(account_name, account_password) is True:
+                data = ol.access_read(authcheck.get_id(account_name))
+                print(data)
+                root2 = tk.Toplevel(root)
+                root2.title("Log")
+                t = Table(root2, data)
+                t.create()
+                root2.mainloop()
+
+        # create root window
+        root_ask = tk.Toplevel(root)
+        ol.check_db_log()  # check and creates the log file if it doesn't exist
+        root_ask.title("Log")
+        # Set the window size
+        root_ask.geometry("310x140")
+        root_ask.resizable(False, False)
+
+        font_name = "Open Sans"
+        username_label = tk.Label(root_ask, text="Username:", font=(font_name, 12))
+        username_label.grid(row=0, column=0, padx=10, pady=5)
+        username_input = tk.Entry(root_ask, font=(font_name, 12))
+        username_input.grid(row=0, column=1, pady=5)
+
+        password_label = tk.Label(root_ask, text="Password:", font=(font_name, 12))
+        password_label.grid(row=1, column=0, padx=10, pady=5)
+        password_input = tk.Entry(root_ask, show="*", font=(font_name, 12))
+        password_input.grid(row=1, column=1, pady=5)
+
+        access_button = tk.Button(root_ask, text="Access account log", font=(font_name, 10), command=lambda: access_log(
+            username_input.get(), password_input.get()))
+        access_button.grid(row=2, column=0, columnspan=2, pady=15)
 
     def on_close():
         """
@@ -254,7 +308,7 @@ def diary_root():
     menu.add_cascade(label="Settings", menu=settings_menu)
 
     # Create the text widget
-    text_widget = tk.Text(root, font=("Arial", 12))
+    text_widget = tk.Text(root, font=("Open Sans", 12))
     text_widget.pack(expand=True, fill="both")
     root.bind("<Control-s>", save_file)
 
