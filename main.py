@@ -335,12 +335,12 @@ def diary_root():
     edit_menu.add_command(label="Change Size", command=change_size)
     edit_menu.add_command(label="Search", command=search)
     edit_menu.add_command(label="Replace", command=replace)
-    menu.add_cascade(label="Settings", menu=edit_menu)
+    menu.add_cascade(label="Edit", menu=edit_menu)
 
-    edit_menu = tk.Menu(menu, tearoff=0)
-    edit_menu.add_command(label="About", command=about)
-    edit_menu.add_command(label="Help", command=support)
-    menu.add_cascade(label="Settings", menu=edit_menu)
+    help_menu = tk.Menu(menu, tearoff=0)
+    help_menu.add_command(label="About", command=about)
+    help_menu.add_command(label="Help", command=support)
+    menu.add_cascade(label="Help", menu=help_menu)
 
     # Create the text widget
     text_widget = tk.Text(root, font=("Open Sans", 12))
