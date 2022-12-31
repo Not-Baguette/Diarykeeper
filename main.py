@@ -2,7 +2,7 @@ import tkinter as tk
 import tkinter.filedialog as fd
 import tkinter.messagebox as mb
 import authcheck
-import diary_main as dm
+import diary_manage as dm
 import open_log as ol
 
 
