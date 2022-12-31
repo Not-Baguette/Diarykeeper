@@ -4,7 +4,7 @@ An offline diary keeper, secured by SHA-256 hashing and Twofish encryption algor
 ## Features
 - `Account management` (Delete Account, Change Password)
 - `Portability`
-- `Access logs` with time
+- Private `Access logs` with time for all accounts
 - SHA-256 `Hashing` for password
 - `Twofish Encryption` Algorithm security
 - Multiple diaries
@@ -44,6 +44,42 @@ An offline diary keeper, secured by SHA-256 hashing and Twofish encryption algor
 
 **`Release`**
 - Not done yet
+
+## How to use
+- Install the app either via `.exe` on release or Source code
+- Open the app or `main.py`
+- You will be greeted with this page and a file called accounts_db.db should appear in the current directory (folder) 
+- Write a username you want and click `Create account`
+
+![image](https://user-images.githubusercontent.com/94969176/210125837-f00ac8a0-0a00-4289-a330-6f052db9c5b1.png)
+
+- If your account name and password meets the requirement, it will show `Account created. Please log in`, simply log in
+
+![image](https://user-images.githubusercontent.com/94969176/210125927-6690d339-ad93-4de1-a990-70bc016f0e92.png)
+
+- You should be presented with an app similar to notepad, simply click `File > Open`
+
+![image](https://user-images.githubusercontent.com/94969176/210126002-f41fc2ea-4662-46e8-af55-01094ea4651c.png)
+
+- Navigate to a `.dry` file, If you haven't, open `File Explorer` and make it anywhere you need
+
+![image](https://user-images.githubusercontent.com/94969176/210126036-0a13fd6a-8b77-485b-921b-e0503b9c45bd.png)
+
+![image](https://user-images.githubusercontent.com/94969176/210126049-4f8e2bbc-0408-4e5e-9bca-633ad4b83b7b.png)
+
+![image](https://user-images.githubusercontent.com/94969176/210126055-2255d303-a058-4715-bdd4-75e1df55a447.png)
+
+- Click `Open` and you should be back with the directory name on the top
+
+![image](https://user-images.githubusercontent.com/94969176/210126067-15a747ad-a170-44de-b37a-3ef0d7e2983a.png)
+
+- Write whatever you want or need to and once you're done, either click `Ctrl+S` or `File > Save`
+
+![image](https://user-images.githubusercontent.com/94969176/210126123-31f35a19-25d5-40bf-a14d-a3246455f356.png)
+
+- And you're done! The diary page cannot be accessed by anyone else except you. (What would appear if you try to open it with another account or notepad)
+
+![image](https://user-images.githubusercontent.com/94969176/210126195-b66a3a4e-906e-4ceb-b42f-2be366dd1a90.png)
 
 
 ## Warning
