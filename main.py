@@ -91,7 +91,6 @@ def verification():
 
     password_vis_button = tk.Button(root, text="Toggle password", font=(font_name, 10), command=toggle_pw)
     password_vis_button.grid(row=4, column=0, columnspan=2, pady=5)
-
     root.mainloop()
 
 
@@ -101,6 +100,7 @@ def diary_root():
     Diary window via tkinter
     """
 
+    # File cascade
     def save_file(*args):  # NOQA
         """
         Save the diary by getting the text from the text widget and then save
@@ -124,6 +124,15 @@ def diary_root():
         root.title(f"Diary - {file_path}")
         root.update()
 
+    def on_close():
+        """
+        Make sure the user wants to close the window
+        """
+        result = mb.askyesno("Quit", "Are you sure you want to quit? Have you saved your file yet?")
+        if result:
+            root.destroy()
+
+    # Settings cascade
     def change_pw():
         """
         Make a sub-window asking the user for their username, old password, new password,
@@ -275,13 +284,25 @@ def diary_root():
             username_input.get(), password_input.get()))
         access_button.grid(row=2, column=0, columnspan=2, pady=15)
 
-    def on_close():
-        """
-        Make sure the user wants to close the window
-        """
-        result = mb.askyesno("Quit", "Are you sure you want to quit? Have you saved your file yet?")
-        if result:
-            root.destroy()
+    # Edit Cascade
+    def change_font():
+        pass
+
+    def change_size():
+        pass
+
+    def search():
+        pass
+
+    def replace():
+        pass
+
+    # Help Cascade
+    def about():
+        pass
+
+    def support():
+        pass
 
     # Create the main window
     root = tk.Tk()
@@ -308,6 +329,18 @@ def diary_root():
     settings_menu.add_separator()
     settings_menu.add_command(label="Open logs", command=open_log)
     menu.add_cascade(label="Settings", menu=settings_menu)
+
+    edit_menu = tk.Menu(menu, tearoff=0)
+    edit_menu.add_command(label="Change Font", command=change_font)
+    edit_menu.add_command(label="Change Size", command=change_size)
+    edit_menu.add_command(label="Search", command=search)
+    edit_menu.add_command(label="Replace", command=replace)
+    menu.add_cascade(label="Settings", menu=edit_menu)
+
+    edit_menu = tk.Menu(menu, tearoff=0)
+    edit_menu.add_command(label="About", command=about)
+    edit_menu.add_command(label="Help", command=support)
+    menu.add_cascade(label="Settings", menu=edit_menu)
 
     # Create the text widget
     text_widget = tk.Text(root, font=("Open Sans", 12))
@@ -432,6 +465,7 @@ def diary_root():
     Diary window via tkinter
     """
 
+    # File cascade
     def save_file(*args):  # NOQA
         """
         Save the diary by getting the text from the text widget and then save
@@ -455,6 +489,15 @@ def diary_root():
         root.title(f"Diary - {file_path}")
         root.update()
 
+    def on_close():
+        """
+        Make sure the user wants to close the window
+        """
+        result = mb.askyesno("Quit", "Are you sure you want to quit? Have you saved your file yet?")
+        if result:
+            root.destroy()
+
+    # Settings cascade
     def change_pw():
         """
         Make a sub-window asking the user for their username, old password, new password,
@@ -606,13 +649,25 @@ def diary_root():
             username_input.get(), password_input.get()))
         access_button.grid(row=2, column=0, columnspan=2, pady=15)
 
-    def on_close():
-        """
-        Make sure the user wants to close the window
-        """
-        result = mb.askyesno("Quit", "Are you sure you want to quit? Have you saved your file yet?")
-        if result:
-            root.destroy()
+    # Edit Cascade
+    def change_font():
+        pass
+
+    def change_size():
+        pass
+
+    def search():
+        pass
+
+    def replace():
+        pass
+
+    # Help Cascade
+    def about():
+        pass
+
+    def support():
+        pass
 
     # Create the main window
     root = tk.Tk()
@@ -639,6 +694,18 @@ def diary_root():
     settings_menu.add_separator()
     settings_menu.add_command(label="Open logs", command=open_log)
     menu.add_cascade(label="Settings", menu=settings_menu)
+
+    edit_menu = tk.Menu(menu, tearoff=0)
+    edit_menu.add_command(label="Change Font", command=change_font)
+    edit_menu.add_command(label="Change Size", command=change_size)
+    edit_menu.add_command(label="Search", command=search)
+    edit_menu.add_command(label="Replace", command=replace)
+    menu.add_cascade(label="Settings", menu=edit_menu)
+
+    edit_menu = tk.Menu(menu, tearoff=0)
+    edit_menu.add_command(label="About", command=about)
+    edit_menu.add_command(label="Help", command=support)
+    menu.add_cascade(label="Settings", menu=edit_menu)
 
     # Create the text widget
     text_widget = tk.Text(root, font=("Open Sans", 12))
