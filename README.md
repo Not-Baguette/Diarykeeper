@@ -13,7 +13,13 @@ An offline diary keeper, secured by SHA-256 hashing and Twofish encryption algor
 - Fully offline
 
 ## Preview
-TBA
+![image](https://user-images.githubusercontent.com/94969176/210125568-af2378b5-76ea-466a-b11f-512349a91974.png)
+
+![image](https://user-images.githubusercontent.com/94969176/210125578-1a8207dc-c23a-4b77-859f-4fed60f88b50.png)
+
+![image](https://user-images.githubusercontent.com/94969176/210125606-1725a920-025b-4812-95e8-cb2a3faf9453.png)
+
+![image](https://user-images.githubusercontent.com/94969176/210125649-6179ff9d-00d1-48e8-82d3-2e00601563ac.png)
 
 ## TODO
 - [ ] Add pages feature
