@@ -285,19 +285,6 @@ def diary_root():
             username_input.get(), password_input.get()))
         access_button.grid(row=2, column=0, columnspan=2, pady=15)
 
-    # Edit Cascade
-    def change_font():
-        pass
-
-    def change_size():
-        pass
-
-    def search():
-        pass
-
-    def replace():
-        pass
-
     # Help Cascade
     def about():
         """
@@ -346,13 +333,6 @@ def diary_root():
     settings_menu.add_separator()
     settings_menu.add_command(label="Open logs", command=open_log)
     menu.add_cascade(label="Settings", menu=settings_menu)
-
-    edit_menu = tk.Menu(menu, tearoff=0)
-    edit_menu.add_command(label="Change Font", command=change_font)
-    edit_menu.add_command(label="Change Size", command=change_size)
-    edit_menu.add_command(label="Search", command=search)
-    edit_menu.add_command(label="Replace", command=replace)
-    menu.add_cascade(label="Edit", menu=edit_menu)
 
     help_menu = tk.Menu(menu, tearoff=0)
     help_menu.add_command(label="About", command=about)
